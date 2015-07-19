@@ -1,0 +1,22 @@
+
+前提
+ 以下のソフトウェアがインストール済み
+  Vagrant
+  Ansible
+  
+VagrantFileの使い方
+　まず、適当なディレクトリに移動し、"vagrant init"を実行する。
+　すると、カレントディレクトリの下に"VagrantFile"が作成される。
+　作成された"VagrantFile"をこのリポジトリのファイルにて上書きし、"vagrant up"を実行する
+
+Ansibleの使い方
+　使う前にSSHの設定が必要。
+　暫定的に以下の方法を用いて行っている。もっと工夫できるはず。
+　　"vagrant ssh-config"を実行して、vagrantへの接続情報をコピーする。
+　　でMacの場合は、~/.ssh/configにコピーした情報を貼付ける。
+　
+　実行方法
+　　ansible-playbook -i hosts jenkins.yml
+　　ansible-playbook -i hosts gitlab.yml
+
+ 
