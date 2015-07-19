@@ -1,11 +1,29 @@
  - hosts: servers
    sudo: yes
    tasks:
+    - name: install openssh-server
+      yum: name=openssh-server state=latest
+
+    - name: service up postfix 
+      service: name=postfix state=running enabled=yes
+      
+    - name: set firewall
+      shell: lokkit -s http -s ssh
+
     - name: prepare for installing GitLab CE 
       shell: curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
 
     - name: install GitLab CE
       yum: name=gitlab-ce-7.12.2~omnibus.1-1.x86_64 state=present
 
+    - name: update gitlab.rb for setting external_ref
+      lineinfile: dest=/etc/gitlab/gitlab.rb
+                  regexp=^external_url
+                  line="external_url 'http://192.168.33.11'"
+
     - name: configure GitLab
       shell: gitlab-ctl reconfigure
+
+
+    - name: startup GitLab
+      shell: gitlab-ctl start
