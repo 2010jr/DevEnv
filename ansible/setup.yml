@@ -1,0 +1,20 @@
+- hosts: servers
+  sudo: yes
+  tasks:
+    - name: install python 
+      yum: name=python state=installed
+    
+    - name: ensure open JDK 1.7 is latest version
+      yum: name=java-1.7.0-openjdk state=latest
+
+    - name: install jenkins repository
+      get_url: url=http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo dest=/etc/yum.repos.d/jenkins.repo
+
+    - name: add jenkins repository
+      rpm_key: key=http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
+      
+    - name: ensure jenkins at the latest version
+      yum: name=jenkins state=latest 
+
+    - name: ensure jenkins is running and enabled
+      service: name=jenkins state=running enabled=yes 

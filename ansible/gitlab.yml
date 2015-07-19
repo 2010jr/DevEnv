@@ -1,0 +1,11 @@
+ - hosts: servers
+   sudo: yes
+   tasks:
+    - name: prepare for installing GitLab CE 
+      shell: curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+
+    - name: install GitLab CE
+      yum: name=gitlab-ce-7.12.2~omnibus.1-1.x86_64 state=present
+
+    - name: configure GitLab
+      shell: gitlab-ctl reconfigure
