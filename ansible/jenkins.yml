@@ -4,6 +4,9 @@
     - name: install python 
       yum: name=python state=installed
     
+    - name: set firewall
+      shell: lokkit -s http -s ssh
+
     - name: ensure open JDK 1.7 is latest version
       yum: name=java-1.7.0-openjdk state=latest
 
@@ -18,3 +21,6 @@
 
     - name: ensure jenkins is running and enabled
       service: name=jenkins state=running enabled=yes 
+
+    - name: update iptable for jenkins
+      shell: lokkit -p 8080:tcp
