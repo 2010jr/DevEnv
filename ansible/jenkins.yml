@@ -41,5 +41,24 @@
     - name: installing plugin [gitlab-hook]
       action: command java -jar /tmp/jenkins-cli.jar -s http://localhost:8080 install-plugin gitlab-hook
 
+    - name: add jenkins to root group
+      command: gpasswd -a jenkins root
+
+    - name: add read right of /etc/shadow to root group
+      command: chmod g+r /etc/shadow
+    
+    - name: set JENKINS_USER to jenkins 
+      lineinfile: dest=/etc/sysconfig/jenkins 
+                  regexp="^JENKINS_USER"
+                  line="JENKINS_USER=jenkins"
+
+    - name: set JENKINS_PORT to 8080 
+      lineinfile: dest=/etc/sysconfig/jenkins 
+                  regexp="^JENKINS_PORT"
+                  line="JENKINS_PORT=8080"
+
     - name: jenkins restart 
       action: command java -jar /tmp/jenkins-cli.jar -s http://localhost:8080 safe-restart 
+
+    - name: git install
+      yum: name=git state=latest
