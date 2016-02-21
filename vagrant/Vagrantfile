@@ -14,29 +14,38 @@ Vagrant.configure(2) do |config|
   # boxes at https://atlas.hashicorp.com/search.
   #config.vm.box = "base"
   #config.vm.box = "centos64_64"
-  config.vm.define :node1 do |node|
-  	node.vm.box = "centos64_64"
-	node.vm.network :private_network, ip:"192.168.33.11"
-	node.vm.network "forwarded_port", guest: 80, host:18000
-	node.vm.network "forwarded_port", guest: 8080, host:18080 
+  #config.vm.define :node1 do |node|
+  #	node.vm.box = "centos64_64"
+  #  node.vm.network :private_network, ip:"192.168.33.11"
+  #  node.vm.provision "ansible" do |ansible|
+  #  	ansible.limit = 'all'
+  #  	ansible.inventory_path = "../ansible/hosts"
+  #  	ansible.playbook = "../ansible/gitlab.yml"
+  #  end
+  #  node.vm.provider "virtualbox" do |vm|
+  #  	vm.customize ["modifyvm", :id, "--memory", "2024"]
+  #  end
+  #end
+  #config.vm.define :node2 do |node|
+  #	node.vm.box = "centos64_64"
+  #  node.vm.network :private_network, ip:"192.168.33.12"
+  #  node.vm.provision "ansible" do |ansible|
+  #  	ansible.limit = 'all'
+  #  	ansible.inventory_path = "../ansible/hosts2"
+  #  	ansible.playbook = "../ansible/jenkins.yml"
+  #  end
+  #  node.vm.provider "virtualbox" do |vm|
+  #  	vm.customize ["modifyvm", :id, "--memory", "2024"]
+  #  end
+  #end
+
+  config.vm.define :node3 do |node|
+  	node.vm.box = "centos66_64"
+	node.vm.network :private_network, ip:"192.168.33.13"
     node.vm.provision "ansible" do |ansible|
 		ansible.limit = 'all'
-		ansible.inventory_path = "../ansible/hosts"
-		ansible.playbook = "../ansible/gitlab.yml"
-	end
-    node.vm.provider "virtualbox" do |vm|
-		vm.customize ["modifyvm", :id, "--memory", "2024"]
-	end
-  end
-  config.vm.define :node2 do |node|
-  	node.vm.box = "centos64_64"
-	node.vm.network :private_network, ip:"192.168.33.12"
-	node.vm.network "forwarded_port", guest: 80, host:28000
-	node.vm.network "forwarded_port", guest: 8080, host:28080 
-    node.vm.provision "ansible" do |ansible|
-		ansible.limit = 'all'
-		ansible.inventory_path = "../ansible/hosts2"
-		ansible.playbook = "../ansible/jenkins.yml"
+		ansible.inventory_path = "../ansible/hosts3"
+		ansible.playbook = "../ansible/docker.yml"
 	end
     node.vm.provider "virtualbox" do |vm|
 		vm.customize ["modifyvm", :id, "--memory", "2024"]

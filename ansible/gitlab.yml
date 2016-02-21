@@ -27,3 +27,6 @@
 
     - name: startup GitLab
       shell: gitlab-ctl start
+      
+    - name: install dns packages
+      yum: name=bind-utils state=latest
