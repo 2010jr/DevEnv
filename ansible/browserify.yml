@@ -1,0 +1,16 @@
+- hosts: servers
+  sudo: yes
+  tasks:
+    - name: install npm
+      yum: name=npm state=present
+
+    - name: 
+
+    - name: install browserify packages 
+      npm: name={{ item }} state=present
+      with_items:
+        - browserify
+        - reactify
+        - react
+        - uglify-js
+

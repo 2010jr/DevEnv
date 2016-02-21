@@ -1,0 +1,27 @@
+- hosts: servers
+  sudo: yes
+  tasks:
+    - name: add user
+      user: name={{ item }} createhome=yes remove=no state=present 
+      with_items:
+        - kusahana
+        - shibayama
+   
+    - name: make ssh dir
+      file: path=/home/{{ item }}/.ssh state=directory owner={{ item }} mode=0700 
+      with_items:
+        - kusahana
+        - shibayama
+
+    - name: copy ssh_key 
+      copy: src=./{{ item }}_id_rsa.pub dest=/home/{{ item }}/.ssh/authorized_keys owner={{ item }} mode=0600
+      with_items:
+        - kusahana
+        - shibayama
+
+    - name: add to sudo user
+      lineinfile: dest=/etc/sudoers backup=yes state=present regexp="^{{ item.find }}" line="{{ item.line }}"
+      with_items:
+        - { find: kusahana, line: 'kusahana ALL=(ALL) NOPASSWD: ALL' }
+        - { find: shibayama, line: 'shibayama ALL=(ALL) NOPASSWD: ALL' }
+ 

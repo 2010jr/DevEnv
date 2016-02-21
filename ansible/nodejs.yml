@@ -1,0 +1,14 @@
+- hosts: servers
+  sudo: yes
+  tasks:
+    - name: install node
+      yum: name=nodejs state=present
+     
+    - name: install npm
+      yum: name=npm state=present
+
+    - name: install express-generator
+      npm: name=express-generator global=yes state=present
+
+    - name: install express
+      npm: name=express global=yes state=present

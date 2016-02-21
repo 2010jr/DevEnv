@@ -1,0 +1,18 @@
+- hosts: servers
+  sudo: yes
+  tasks:
+    - name: install git
+      yum: name=git state=present
+
+    - name: install neobundle
+      git: repo=https://github.com/Shougo/neobundle.vim dest=/home/vagrant/.vim/bundle/neobundle.vim
+      
+    - name: install neobundle
+      git: repo=https://github.com/Shougo/vimproc dest=/home/vagrant/.vim/bundle/vimproc
+
+    - name: install vim
+      yum: name=vim state=present 
+      
+    - name: copy vimrc
+      copy: src=~/.vimrc dest=/home/vagrant/.vimrc owner=vagrant group=vagrant mode=0755 
+     

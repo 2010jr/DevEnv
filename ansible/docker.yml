@@ -1,0 +1,31 @@
+- hosts: servers
+  sudo: yes
+  tasks:
+    - name: get epel key
+      rpm_key:
+        key: "http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6"
+        state: present
+
+    - name: install epel rpm
+      yum: name=http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm state=present
+
+    - name: edit epel etc file
+      replace: >-
+        dest='/etc/yum.repos.d/epel.repo' 
+        regexp='^{{ item.regexp }}' 
+        replace='{{ item.replace }}'
+      with_items:
+        - regexp: '^#baseurl'
+          replace: 'baseurl'
+        - regexp: '^mirrorlist'
+          replace: '#mirrorlist'
+           
+    - name: install docker-io
+      yum: name=docker-io
+
+    - name: ensure docker start up
+      service: name=docker state=started enabled=yes
+
+    - name: locate directory for docker file at home directory
+      file: path=~/docker state=directory owner=root group=root mode=0777
+

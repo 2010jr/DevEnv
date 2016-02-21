@@ -1,0 +1,13 @@
+- hosts: servers
+  sudo: yes
+  tasks:
+    - name: install openldap 
+      yum: name=openldap state=latest
+
+    - name: install openldap servers 
+      yum: name=openldap-servers state=latest
+
+    - name: install openldap client
+      yum: name=openldap-clients state=latest
+     
+
