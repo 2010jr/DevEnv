@@ -7,8 +7,9 @@
     - name: set firewall
       shell: lokkit -s http -s ssh
 
-    - name: ensure open JDK 1.7 is latest version
-      yum: name=java-1.7.0-openjdk state=latest
+
+    - name: ensure open JDK 1.8 is latest version
+      yum: name=java-1.8.0-openjdk state=latest
 
     - name: install jenkins repository
       get_url: url=http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo dest=/etc/yum.repos.d/jenkins.repo
