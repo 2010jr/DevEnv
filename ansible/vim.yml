@@ -12,7 +12,10 @@
 
     - name: install vim
       yum: name=vim state=present 
-      
+     
+    - name: install linux-python before copying file
+      yum: name=libselinux-python state=latest
+
     - name: copy vimrc
       copy: src=~/.vimrc dest=/home/vagrant/.vimrc owner=vagrant group=vagrant mode=0755 
      

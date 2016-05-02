@@ -1,0 +1,6 @@
+- hosts: servers
+  sudo: yes
+  tasks:
+    - name: clone diary dev repository
+      git: repo=git@github.com:2010jr/DiaryApp.git dest=~/DiaryApp clone=yes update=no accept_hostkey=yes
+      sudo: false
