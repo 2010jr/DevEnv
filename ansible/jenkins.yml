@@ -26,21 +26,17 @@
     - name: update iptable for jenkins
       shell: lokkit -p 8080:tcp
 
+
     - name: download jenkins cli tool
-      get_url: url=http://localhost:8080/jnlpJars/jenkins-cli.jar
-               dest=/tmp
+      get_url: url=http://localhost:8080/jnlpJars/jenkins-cli.jar dest=/tmp
 
-    - name: installing plugin [build-pipeline-plugin]
-      action: command java -jar /tmp/jenkins-cli.jar -s http://localhost:8080 install-plugin build-pipeline-plugin
-
-    - name: installing plugin [git]
-      action: command java -jar /tmp/jenkins-cli.jar -s http://localhost:8080 install-plugin git
-
-    - name: installing plugin [gitlab-plugin]
-      action: command java -jar /tmp/jenkins-cli.jar -s http://localhost:8080 install-plugin gitlab-plugin
-
-    - name: installing plugin [gitlab-hook]
-      action: command java -jar /tmp/jenkins-cli.jar -s http://localhost:8080 install-plugin gitlab-hook
+    - name: install plugin 
+      action: command java -jar /tmp/jenkins-cli.jar -s http://localhost:8080 install-plugin {{ item }}
+      with_items:
+        - build-pipeline-plugin
+        - git
+        - github
+        - github-api
 
     - name: add jenkins to root group
       command: gpasswd -a jenkins root
@@ -60,6 +56,3 @@
 
     - name: jenkins restart 
       action: command java -jar /tmp/jenkins-cli.jar -s http://localhost:8080 safe-restart 
-
-    - name: git install
-      yum: name=git state=latest
