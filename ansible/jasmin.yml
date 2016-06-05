@@ -1,0 +1,6 @@
+- hosts: servers
+  sudo: false 
+  tasks:
+    - name: install jasmine in global
+      npm: name=jasmine global=yes state=latest
+  
