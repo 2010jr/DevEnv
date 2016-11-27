@@ -3,10 +3,9 @@
   tasks:
     - name: install python 
       yum: name=python state=installed
-    
-    - name: set firewall
-      shell: lokkit -s http -s ssh
 
+    - name: enable firewalld
+      service: name=firewalld state=running enabled=yes
 
     - name: ensure open JDK 1.8 is latest version
       yum: name=java-1.8.0-openjdk state=latest
@@ -24,8 +23,10 @@
       service: name=jenkins state=running enabled=yes 
 
     - name: update iptable for jenkins
-      shell: lokkit -p 8080:tcp
+      shell: firewall-cmd --zone=public --add-port=8080/tcp
 
+    - name: update iptable for jenkins
+      shell: firewall-cmd --zone=dmz --add-port=8080/tcp
 
     - name: download jenkins cli tool
       get_url: url=http://localhost:8080/jnlpJars/jenkins-cli.jar dest=/tmp

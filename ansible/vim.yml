@@ -4,14 +4,21 @@
     - name: install git
       yum: name=git state=present
 
-    - name: install neobundle
+    - name: clone neobundle vim
       git: repo=https://github.com/Shougo/neobundle.vim dest=/home/vagrant/.vim/bundle/neobundle.vim
+      sudo: false
       
-    - name: install neobundle
+    - name: clone neobundle spec
       git: repo=https://github.com/Shougo/vimproc dest=/home/vagrant/.vim/bundle/vimproc
+      sudo: false
+
+    - name: install neobundle
+      shell: /home/vagrant/.vim/bundle/neobundle.vim/bin/install.sh > /home/vagrant/install.log
+      sudo: false
 
     - name: install vim
       yum: name=vim state=present 
+      sudo: false
      
     - name: install linux-python before copying file
       yum: name=libselinux-python state=latest

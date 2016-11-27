@@ -1,14 +1,11 @@
 - hosts: servers
   sudo: yes
   tasks:
+    - name: install epel-release first
+      yum: name=epel-release state=latest
+
     - name: install node
-      yum: name=nodejs state=present
+      yum: name=nodejs state=latest
      
     - name: install npm
-      yum: name=npm state=present
-
-    - name: install express-generator
-      npm: name=express-generator global=yes state=present
-
-    - name: install express
-      npm: name=express global=yes state=present
+      yum: name=npm state=latest enablerepo=epel
